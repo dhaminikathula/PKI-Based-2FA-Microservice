@@ -1,29 +1,75 @@
-Student: Dhamini Sri Raja Jahnavi Kathula
-GitHub: https://github.com/dhaminikathula/PKI-Based-2FA-Microservice
+PKI-Based 2FA Microservice
 
-Project Overview
+This project implements a PKI-based Two-Factor Authentication (2FA) microservice using FastAPI. It securely generates and verifies OTPs (One-Time Passwords) using a seed encrypted with public key cryptography.
 
-A PKI-based Two-Factor Authentication microservice built with FastAPI.
-The project securely encrypts a TOTP seed using RSA 4096-bit encryption, decrypts it on the server, and validates OTPs. The microservice is Dockerized and includes a cron job to log OTPs every minute.
+Features :
 
-Key Functionalities:
+Health Check: GET /health → Check service status.
+Seed Decryption: POST /decrypt-seed → PKI decryption of the stored seed.
+OTP Generation: GET /generate-2fa → Generates a 6-digit TOTP.
+OTP Verification: POST /verify-2fa → Verifies the generated OTP.
 
-GET /health → Service status
+Technology Stack :
 
-POST /decrypt-seed → Decrypt encrypted seed
+Python 3.10+
+FastAPI (REST API framework)
+PyOTP (Time-based OTP generation)
+Cryptography (Public Key Infrastructure for seed encryption/decryption)
+Uvicorn (ASGI server for FastAPI)
+Installation & Setup :
 
-GET /generate-2fa → Generate 6-digit OTP
+1. Clone the repository:
 
-POST /verify-2fa → Verify OTP
+git clone https://github.com/dhaminikathula/PKI-Based-2FA-Microservice.git
+cd PKI-Based-2FA-Microservice
 
-How It Works
+2. Create a virtual environment and activate:
 
-Request Encrypted Seed – scripts/request_seed.py
+python -m venv .venv
+.venv\Scripts\activate   
 
-Decrypt Seed – POST /decrypt-seed with encrypted seed
+3. Install dependencies:
 
-Generate OTP – GET /generate-2fa
+pip install -r requirements.txt
 
-Verify OTP – POST /verify-2fa with JSON { "otp": "<6-digit-code>" }
+4. Run the server:
 
-Cron Job – Logs OTP every minute in /cron/last_code.txt
+uvicorn app.main:app --reload
+
+5. Open Swagger UI:
+Go to http://127.0.0.1:8000/docs
+ to test all endpoints.
+
+Usage :
+
+1. Generate OTP:
+
+Open GET /generate-2fa in Swagger UI → Click Execute → Copy the 6-digit OTP.
+
+2. Verify OTP:
+
+Open POST /verify-2fa in Swagger UI → Click Try it out → Paste the OTP in JSON format:
+{
+  "otp": "123456"
+}
+Click Execute → Expected Response:
+{
+  "status": "success",
+  "message": "OTP verified"
+}
+
+Screenshots :
+
+Server Running: uvicorn terminal screenshot
+Swagger UI: Endpoint documentation screenshot
+OTP Success: OTP verification screenshot
+
+Key Learning :
+ 1. Implemented a secure PKI-based 2FA system.
+ 2. Learned FastAPI endpoint development and TOTP integration.
+ 3. Worked with public/private key encryption in Python.
+
+Submission Notes :
+ 1. This microservice is fully functional and tested.
+ 2. OTP generation and verification are working correctly.
+ 3. Ready for deployment or integration with other systems.
